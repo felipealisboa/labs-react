@@ -228,6 +228,8 @@ caption {
 
 th {
   text-align: inherit;
+  cursor: pointer;
+
 }
 
 label {

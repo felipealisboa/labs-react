@@ -17,6 +17,10 @@ class Users extends Component {
       })
       .catch(console.log)
   }
+
+
+
+
   render() {
     return (
       <div className="container">
@@ -25,18 +29,32 @@ class Users extends Component {
         {this.state.users.map((user) => (
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">{user.name}</h5>
-              <h6 className="card-subtitle mb-2 text-muted">
-                UserName: {user.username}<br/>
-                Email: {user.email}<br/>
-                ZipCode: {user.address.zipcode}
-              </h6>
+            <table class="table table-hover">
+                <thead display="block">
+                  <tr>
+                    <th scope="col">#Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Zip code</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.address.zipcode}</td>
+                  </tr>
+                </tbody>
+                </table>
             </div>
           </div>
         ))}
-
         </div>
-       </div>
+      </div>
     );
   }
 }

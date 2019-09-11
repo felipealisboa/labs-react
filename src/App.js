@@ -1,10 +1,10 @@
 import React, { Component, useState } from 'react';
-
+import Users from './components/Users';
 const App = props => {
 
     return (
       <div className="container">
-        <User />
+        <Users />
       </div>
     );
 }

@@ -1,29 +1,90 @@
 import React, { Component, useState } from 'react';
-
-
+import Datasort from 'react-data-sort';
 
 class Users extends Component {
 
-  state = {
-    users: []
-  }
+      state = {
+      users: [],
+      sortBy: [
+          "id",
+          "name"
+        ],
+      direction: "asc",
+      activePage: 0,
+    };
 
-  componentDidMount() {
-    fetch('http://localhost:3000/users')
-      .then(res => res.json())
-      .then((data) => {
+      componentDidMount() {
+        const url = 'http://localhost:3000/users';
+        fetch(url)
+          .then(res => res.json())
+          .then((data) => {
+            this.setState({
+              users: data
+            })
+            console.log(this.state.users)
+          })
+          .catch(console.log)
+      }
+
+      componentWillUnmount() {
+        console.log('component will unmount');
+      }
+
+      openDetail(user) {
+        console.log(user);
+      }
+
+      renderTableData() {
+      return this.state.users.map((user, index) => {
+         const { id, name, username, email, address } = user //destructuring
+         return (
+            <tr key={id}>
+               <td>{user.id}</td>
+               <td>{user.name}</td>
+               <td>{user.username}</td>
+               <td>{user.email}</td>
+               <td>{user.address.zipcode}</td>
+               <td><button type="button" class="btn btn-success btn-sm" onClick={this.handleClick}>Detail</button></td>
+            </tr>
+             )
+          })
+       }
+
+      setSortBy = sortBy => {
+        this.setState({ sortBy });
+      }
+
+      toggleDirection = () => {
         this.setState({
-          users: data
-        })
-        console.log(this.state.users)
-      })
-      .catch(console.log)
-  }
+      direction: this.state.direction === "asc" ? "desc" : "asc"
+          });
+      };
 
+       goToPage = activePage => {
+          this.setState({ activePage });
+        };
 
+       prevPage = () => {
+          this.setState(({ activePage }) => ({
+            activePage: activePage - 1
+          }));
+        };
+
+        nextPage = () => {
+          this.setState(({ activePage }) => ({
+            activePage: activePage + 1
+          }));
+        };
 
   render() {
+    const { sortBy, direction, activePage, searchQuery } = this.state;
     return (
+      <Datasort
+        data = {this.state.users}
+        sortBy={sortBy.id, sortBy.name}
+    )
+    return (
+
       <div className="container">
         <div className="col-md">
         <h1>Users</h1>
@@ -35,24 +96,15 @@ class Users extends Component {
                   <tr>
                     <th class="sorting" scope="col">#Id</th>
                     <th scope="col">Name</th>
-                    <th class="sorting" scope="col" arial-label="Name: activate to sort column descending" arial-sort="ascending" rowspan="1" colspan="1">User Name</th>
+                    <th class="sorting" scope="col" >User Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Zip code</th>
                     <th scope="col">Open Detail</th>
                 </tr>
                 </thead>
-                <tbody>
-                {this.state.users.map((user) => (
-                  <tr>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{user.address.zipcode}</td>
-                    <td><button type="button" class="btn btn-success btn-sm" onCLick={user}>Detail</button></td>
-                  </tr>
-                ))}
-                </tbody>
+                  <tbody>
+                      {this.renderTableData()}
+                  </tbody>
                 </table>
                 </div>
             </div>

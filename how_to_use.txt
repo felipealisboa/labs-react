@@ -3,8 +3,7 @@ STARTING React
 1. start a React project with the command prompt: create-react-app <name of your project> --scripts-version 1.1.5
 
 2. open package.json to changing and add the Port using the lines:
-"start": "PORT=3001 react-scripts start",
-"start-pc": "set PORT=3001&& react-scripts start",
+"start": "set PORT=3001&&react-scripts start"
 
 3. open the terminal and start the server: npm run start-pc
 
